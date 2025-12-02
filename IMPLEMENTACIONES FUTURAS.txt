@@ -1,0 +1,24 @@
+PROXIMAS IMPLEMENTACIONES FUTURAS
+
+==============================================
+
+MIGRACION A GPT-4
+
+===============================================
+
+CAMBIAR DE API PARA EL BUSCADOR(MAS EFICIENTE A LA HORA DE BUSCAR CIUDAD)
+
+================================================
+
+IMPLEMENTAR EL BOTON DE DESCAGAR LAS RECOMENDACIONES EN PDF
+
+===========================================
+
+1. ZORA DEL DESPLIEGUE DE LA RED FFTH: Rural, Urbana, ...
+2. Tipo Cliente: Ciudadela/Pymes, Edificio, Empresa/ Campus Coporativo Zona Residencial Densa, Libre.
+
+===================================================
+
+"Generación de Recomendaciones Técnicas para el Despliegue de Redes FTTH a partir de Trazado Geográfico Digital"
+
+=====================================================

@@ -1,0 +1,16 @@
+
+Recuerda mantener las buenas practicas de programacion y simplificación de codigo para la optimizacion, ademas debe ser 100% responsivo.
+
+postgresql://usuario:password@ep-xxx.us-east-2.aws.neon.tech/neondb?sslmode=require
+
+================================================
+
+npg_jpU5r2IacFAN
+
+==============================================
+Host: ep-spring-recipe-aewvi0cm-pooler.c-2.us-east-2.aws.neon.tech
+Port: 5432
+Database: neondb
+User: neondb_owner
+Password:npg_jpU5r2IacFAN
+

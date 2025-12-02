@@ -1,0 +1,880 @@
+Voy a explicarte un proyecto que estoy haciendo para la tesis, que tanto puedo confiar en ti, con sinceridad?
+
+=========================================
+
+Bien, el proyecto se trata de crear una pagina web con html, css y js(por ahora), la pagina va a tener todo lo que debe tener una pagina web sencilla, login, registro, navegacion etc, pero especialmente esta enfocada en optimizar la toma de desiciones para el despliqgue de una red ftth en la zona que prefiera, la cosa funciona asi: Supongamos que yo soy el usuario y estoy pensando con mi equipo es desplegar una red ftth en una zona de Guayaquil, entro a la pagina seleeciono una opciones de un menu desplegable y doy guardar, despues navego por el mapa de la pagina y selecciono la ruta de mi posible despliegue de la red, doy en "Obtener datos", despues de la confirmacion doy clicK en "Analizar Entorno" y posteriormente el pagina me da una serie de recomendaciones basadas en la opciones desplegable que elegi y en el analizar del entorno previo, estas recomendaciones son sobre anlisis tecnico, optimizacion de ruta, analisis de presuspuesto y materiales etc. ESO DE PARTE DEL USUARIO AHORA DE PARTE DEL DESARROLLADOR TE EXPLICO COMO FUNCIONA POR AHORA DIME QUE TAL.
+
+===========================================================
+
+Primero el funcionamiento e implementacion que se haran, para que las recomendaciones so sean genericas, He reunido algunas tesis donde desplieguen una red ftth en algun lugar de latam y/o espania, de cada tesis se saca lo mas importante como : "Caracterización del sitio" "Análisis de ruta" "Diseño técnico" "Resultados" "Costos" entre otras entonces esa imformacion se guarda en el sitio y se lo analiza, se utilizara un RAG, se extras ese texto importante y se lo vectoriza, posteriormente de lo analiza una sola vez para, eso como punto #1 como base para generar las recomendaciones, el punto #2 es hacer una series de reglas reguladas para el despliegue, esto segun las normas ITU y Arcotel de Ecuador, una 30 a 40 reglas, #3 Para tener los datos de entorno de la zona del posible despliegue se va a utilizar el software ArcGIS, una vez que el usuario traza su ruta y le de click en "Analizar Entorno" se van a extraer todo los datos que la zona y , como postes, edificion, obtaculos, carreteras mediante ArcGIS API for JavaScript en el frontend y envías datos al backend, todo lo mencionado se guardara en una base de datos, #4 se va a basar en entrenar la IA para que nos de (1. Prediccion de costo, Clasificador de Complejidad y otra mas que se le pued aniadir), y por ultimo se utiliza una API potente, eficiente bastante logica y razonable como GTP-4 para solo para estructurar las recomendaciones en base a los 4 puntos mencionados ojo solo nos limitaremos al despliegue AEREO.
+
+ GPT-4 (Síntesis final)               │
+│  - Genera recomendaciones en lenguaje    │
+│    natural                               │
+│  - Incluye:                              │
+│    * Decisiones del sistema experto      │
+│    * Predicciones ML                     │
+│    * Contexto de tesis (RAG)
+Entonces la estrutuc final queda asi:
+## 🏗️ **ARQUITECTURA FINAL CON ML**
+```
+┌──────────────────────────────────────────┐
+│  1. DATOS DE ENTRADA                     │
+│  (ArcGIS, Overpass, OpenTopoData)        │
+└──────────────────────────────────────────┘
+              ↓
+┌──────────────────────────────────────────┐
+│  2. PREPROCESAMIENTO                     │
+│  - Normalización                         │
+│  - Feature engineering                   │
+└──────────────────────────────────────────┘
+              ↓
+        ┌─────────┴─────────┐
+        ↓                   ↓
+┌──────────────────┐  ┌──────────────────┐
+│  SISTEMA EXPERTO │  │  MODELOS ML      │
+│  (30 reglas)     │  │  - Complejidad   │
+│                  │  │  - Costo         │
+│  Output:         │  │                  │
+│  - Alertas       │  │  Output:         │
+│  - Justificación │  │  - Predicciones  │
+└──────────────────┘  └──────────────────┘
+        │                   │
+        └─────────┬─────────┘
+                  ↓
+┌──────────────────────────────────────────┐
+│  3. CONSOLIDACIÓN                        │
+│  - Combinar predicciones                 │
+│  - Resolver discrepancias                │
+│  - Generar datos estructurados           │
+└──────────────────────────────────────────┘
+              ↓
+┌──────────────────────────────────────────┐
+│  4. RAG (Contexto de tesis)              │
+│  - Buscar información relevante          │
+└──────────────────────────────────────────┘
+              ↓
+┌──────────────────────────────────────────┐
+│  5. GPT-4 (Síntesis final)               │
+│  - Genera recomendaciones en lenguaje    │
+│    natural                               │
+│  - Incluye:                              │
+│    * Decisiones del sistema experto      │
+│    * Predicciones ML                     │
+│    * Contexto de tesis (RAG)             │
+└──────────────────────────────────────────┘
+POR AHORA SOLO DIME QUE TAL, Y POSTERIORMENTE TE ENVIO ALGO QUE TU GENERASTE Y OTRA CONVERSACION DEL MISMO TEMA
+
+=========================================================
+
+Me parece interesante, crees que los casos se lo pueda sacar de las tesis de despliegue realizadas? otra cosa, quiero que tengas claro que nos vamos a limitar solo al despliegue aereo, y por ultimo quiero saber a que te refieres con "Etiquetas generadas por tu sistema experto", dicho esto dame nuevamente los detallas de las implementaciones mencionadas, no codigo por ahora
+
+🎯 ACLARACIONES Y REPLANTEAMIENTO COMPLETO
+1️⃣ ¿CASOS DE LAS TESIS DE DESPLIEGUE?
+RESPUESTA: SÍ, ES LA MEJOR OPCIÓN ⭐⭐⭐⭐⭐
+Por qué es mejor que sintéticos:
+
+✅ Datos reales documentados (no inventados) ✅ Validados académicamente (tesis aprobadas) ✅ Casos de éxito/fracaso reales en Ecuador ✅ Contexto específico de Guayaquil/Ecuador ✅ Costos y tiempos reales registrados
+
+¿Qué extraer de cada tesis?
+De cada proyecto documentado en las tesis, extraes:
+
+Variables de entrada (Features):
+
+De la sección "Caracterización del sitio":
+- Longitud de la ruta (km)
+- Zona (urbana/suburbana/rural)
+- Pendiente promedio (%)
+- Pendiente máxima (%)
+- Elevación mínima/máxima (m)
+- Vegetación estimada (%)
+- Proximidad a ríos/esteros (m)
+- Número de cruces especiales
+
+De la sección "Configuración":
+- Tipo de construcción: AÉREA (solo aérea ahora)
+- Split utilizado (1:8, 1:32, 1:64)
+- Número de clientes objetivo
+Variables de salida (Targets/Etiquetas):
+
+De la sección "Resultados" o "Conclusiones":
+- Complejidad del proyecto (Baja/Media/Alta)
+- Costo real por km (USD/km)
+- Tiempo de instalación (días)
+- Problemas encontrados
+- Nivel de éxito del proyecto
+Ejemplo real de extracción:
+Tesis: "Diseño de Red FTTH para sector norte de Guayaquil" - ESPOL 2023
+
+CAPÍTULO 3: Análisis del sitio
+"La ruta seleccionada tiene longitud de 4.2 km en zona 
+urbana consolidada (sector Urdesa), con pendiente promedio 
+de 8% y máxima de 15%. Elevación varía entre 12-45 metros. 
+Vegetación presente en 25% de la ruta (árboles ornamentales). 
+Distancia mínima al estero Salado: 280 metros."
+
+CAPÍTULO 4: Diseño
+"Se optó por construcción aérea con split 1:32 para 
+atender 250 clientes potenciales."
+
+CAPÍTULO 6: Resultados
+"El proyecto se completó con complejidad MEDIA. 
+Costo final: $18,500 (4.2 km) = $4,404/km.
+Tiempo de instalación: 32 días calendario.
+Principales desafíos: Poda de árboles en Av. Principal 
+y coordinación con CNEL para uso de postes existentes."
+Tu dataset (1 fila):
+
+longitud	zona	pend_prom	pend_max	elev_min	elev_max	veg_%	dist_rio	cruces	split	clientes	complejidad	costo_km	dias
+4.2	urbana	8	15	12	45	25	280	1	1:32	250	MEDIA	4404	32
+¿Cuántas tesis necesitas?
+Escenario realista:
+
+10 tesis de FTTH Ecuador/Latinoamérica
+Cada tesis documenta 2-5 proyectos/rutas diferentes
+Total: 20-50 casos reales
+Esto es suficiente para:
+
+Random Forest básico
+Validación cruzada
+Demostrar patrones
+Proceso de extracción:
+SEMANA 1:
+Día 1-2: Leer las 10 tesis completas
+        Identificar secciones con datos técnicos
+        
+Día 3-5: Extraer datos manualmente
+        Crear tabla Excel/CSV
+        Variables: 13 columnas
+        Casos: 20-50 filas
+        
+Día 6-7: Validación de datos
+        Verificar consistencia
+        Rellenar gaps con promedios o marcas
+Output: dataset_ftth_aereo.csv
+
+2️⃣ SOLO DESPLIEGUE AÉREO ✅
+Perfecto, esto SIMPLIFICA TODO
+Ventajas de limitarse a aéreo:
+
+✅ Más específico (mejor que genérico) ✅ Menos variables (subterránea requiere otras features) ✅ Dataset más coherente (todos casos comparables) ✅ Recomendaciones más precisas
+
+Variables específicas SOLO para aéreo:
+python
+VARIABLES RELEVANTES CONSTRUCCIÓN AÉREA:
+
+Topografía:
+- pendiente_promedio (%)
+- pendiente_maxima (%)
+- desnivel_total (metros)
+
+Obstáculos:
+- vegetacion_pct (%)
+- edificios_cercanos (cantidad en 50m)
+- altura_edificios_max (metros)
+
+Infraestructura:
+- postes_existentes (cantidad estimada)
+- lineas_electricas_cruces (cantidad)
+- distancia_promedio_postes (metros)
+
+Ambiental:
+- distancia_rio_min (metros)
+- zona_inundable (sí/no)
+- exposicion_viento (baja/media/alta)
+
+Configuración:
+- longitud_km
+- split (1:8, 1:32, 1:64)
+- clientes_objetivo
+- zona (urbana/suburbana/rural)
+```
+
+**Total: ~15 variables** (manejable)
+
+---
+
+### **Sistema experto SOLO para aéreo:**
+
+**Reglas simplificadas:**
+```
+REGLA AÉREA 1: Pendiente moderada
+IF pendiente_promedio > 12% AND pendiente_promedio <= 20%
+THEN 
+    alerta = "Tensores adicionales cada 80 metros"
+    incremento_costo = +15%
+    complejidad += MEDIA
+
+REGLA AÉREA 2: Pendiente severa
+IF pendiente_promedio > 20%
+THEN 
+    alerta = "Postes de anclaje obligatorios + tensores cada 60m"
+    incremento_costo = +35%
+    complejidad = ALTA
+
+REGLA AÉREA 3: Vegetación densa
+IF vegetacion_pct > 40%
+THEN
+    alerta = "Poda pre-instalación requerida"
+    costo_adicional = $1000 + (longitud_km * 150)
+    mantenimiento = "Trimestral"
+
+REGLA AÉREA 4: Zona urbana densa
+IF zona == "urbana" AND edificios_cercanos > 30
+THEN
+    alerta = "Coordinar con CNEL uso de postes"
+    tiempo_permisos = +10 días
+
+REGLA AÉREA 5: Cruces especiales
+IF lineas_electricas_cruces > 0
+THEN
+    alerta = "Separación mínima 40cm horizontal (ARCONEL 004/01)"
+    incremento_costo_por_cruce = $500
+
+... hasta 25-30 reglas específicas para aéreo
+```
+
+---
+
+### **Modelos ML SOLO para aéreo:**
+
+**MODELO 1: Clasificador de Complejidad AÉREA**
+```
+Input (15 variables aérea):
+- longitud_km
+- pendiente_prom
+- pendiente_max
+- vegetacion_pct
+- edificios_cercanos_50m
+- postes_existentes_estimados
+- distancia_rio
+- zona_codificada
+- split_codificado
+- clientes
+- cruces_electricos
+- altura_edificios_max
+- desnivel_total
+- exposicion_viento
+- zona_inundable
+
+Output:
+- complejidad_aerea: BAJA / MEDIA / ALTA
+```
+
+**MODELO 2: Predictor Costo AÉREA**
+```
+Input: (mismas 15 variables + complejidad_predicha)
+
+Output:
+- costo_km_aerea: 2500 - 6000 USD/km
+  (rango típico construcción aérea Ecuador)
+```
+
+---
+
+## 3️⃣ **"ETIQUETAS GENERADAS POR TU SISTEMA EXPERTO"**
+
+### **EXPLICACIÓN DETALLADA:**
+
+Esto significa que **TÚ decides** la complejidad de cada caso usando tus reglas.
+
+---
+
+### **Proceso paso a paso:**
+
+**PASO 1: Tienes un caso sin etiquetar**
+```
+Caso #23 (de una tesis):
+- Longitud: 6.5 km
+- Pendiente promedio: 17%
+- Pendiente máxima: 28%
+- Vegetación: 45%
+- Zona: Suburbana
+- Edificios cercanos: 12
+- Distancia río: 150m
+- Cruces eléctricos: 3
+- Split: 1:32
+- Clientes: 180
+PREGUNTA: ¿Complejidad? → NO LO SABES AÚN
+
+PASO 2: Aplicas tu sistema experto (reglas)
+
+python
+# Pseudo-código de tu sistema experto
+
+def evaluar_complejidad_aerea(caso):
+    score = 0
+    alertas = []
+    
+    # REGLA 1: Pendiente
+    if caso['pendiente_prom'] > 20:
+        score += 3
+        alertas.append("Pendiente severa")
+    elif caso['pendiente_prom'] > 12:
+        score += 2
+        alertas.append("Pendiente moderada")
+    else:
+        score += 0
+    
+    # REGLA 2: Vegetación
+    if caso['vegetacion'] > 50:
+        score += 2
+    elif caso['vegetacion'] > 30:
+        score += 1
+    
+    # REGLA 3: Longitud
+    if caso['longitud'] > 8:
+        score += 2
+    elif caso['longitud'] > 5:
+        score += 1
+    
+    # REGLA 4: Zona
+    if caso['zona'] == 'rural':
+        score += 2
+    elif caso['zona'] == 'suburbana':
+        score += 1
+    
+    # REGLA 5: Distancia río
+    if caso['dist_rio'] < 200:
+        score += 2
+        alertas.append("Riesgo inundación")
+    
+    # REGLA 6: Cruces eléctricos
+    if caso['cruces_electricos'] > 2:
+        score += 1
+    
+    # CLASIFICACIÓN FINAL
+    if score <= 3:
+        return "BAJA"
+    elif score <= 7:
+        return "MEDIA"
+    else:
+        return "ALTA"
+
+# Aplicar al Caso #23
+complejidad = evaluar_complejidad_aerea(caso_23)
+# Resultado: score = 8 → complejidad = "ALTA"
+```
+
+---
+
+**PASO 3: Ahora tienes la etiqueta**
+```
+Caso #23:
+- Longitud: 6.5 km
+- Pendiente promedio: 17%
+- ...
+- **COMPLEJIDAD: ALTA** ← Etiqueta generada por TU sistema
+PASO 4: Repites para todos los casos
+
+python
+# Para cada caso extraído de tesis
+for caso in casos_de_tesis:
+    etiqueta = evaluar_complejidad_aerea(caso)
+    caso['complejidad'] = etiqueta
+
+# Resultado:
+# 20 casos con etiquetas asignadas por TU sistema experto
+PASO 5: Entrenas el modelo ML con esas etiquetas
+
+python
+# Dataset completo
+X = [[6.5, 17, 28, 45, 12, 150, ...],  # Caso 23
+     [4.2, 8, 15, 25, 30, 280, ...],   # Caso de tesis ESPOL
+     ...]
+
+y = ["ALTA",   # Etiqueta del Caso 23 (de tu sistema experto)
+     "MEDIA",  # Etiqueta del caso ESPOL (de tu sistema experto)
+     ...]
+
+# Entrenar Random Forest
+modelo_ml.fit(X, y)
+```
+
+---
+
+### **¿Por qué esto funciona?**
+
+**Tu sistema experto = "Profesor"**
+- Tiene reglas claras (normas ITU-T, ARCONEL)
+- Evalúa cada caso manualmente
+- Asigna etiquetas (BAJA/MEDIA/ALTA)
+
+**Modelo ML = "Estudiante"**
+- Aprende de las decisiones del profesor
+- Busca patrones en los datos
+- Intenta replicar las decisiones del profesor
+
+**Después del entrenamiento:**
+- ML puede predecir casos nuevos sin necesitar al profesor
+- Puede descubrir patrones que el profesor no codificó explícitamente
+
+---
+
+### **Ejemplo completo:**
+
+**Sin ML (solo sistema experto):**
+```
+Usuario ingresa ruta nueva → 
+Sistema experto evalúa (0.5 segundos) → 
+Complejidad: MEDIA
+```
+
+**Con ML:**
+```
+Usuario ingresa ruta nueva → 
+Sistema experto evalúa (0.5 seg) → Complejidad: MEDIA
+Modelo ML predice (0.01 seg) → Complejidad: ALTA
+
+→ Discrepancia detectada
+→ Alerta: "Revisar manualmente, factores no capturados por reglas"
+```
+
+---
+
+## 🎯 **IMPLEMENTACIÓN COMPLETA - SOLO AÉREO**
+
+---
+
+## **FASE 1: EXTRACCIÓN DE DATASET DE TESIS** (1 semana)
+
+### **Objetivo:** Crear dataset de 20-50 casos reales
+
+**Actividad 1: Recolectar tesis (Días 1-2)**
+
+Buscar en repositorios:
+- ESPOL (Escuela Superior Politécnica del Litoral)
+- ESPOCH (Escuela Superior Politécnica de Chimborazo)
+- EPN (Escuela Politécnica Nacional)
+- UCE (Universidad Central del Ecuador)
+- UTPL (Universidad Técnica Particular de Loja)
+- Universidades de Colombia, Perú, Chile (si aplica)
+
+Criterios de selección:
+- ✅ Tesis de FTTH o fibra óptica
+- ✅ Incluyen proyectos de **construcción aérea**
+- ✅ Tienen datos técnicos específicos (longitud, costos, pendientes)
+- ✅ Preferiblemente en Ecuador (Guayaquil ideal)
+
+**Meta:** 10-15 tesis PDF descargadas
+
+---
+
+**Actividad 2: Lectura y mapeo (Días 3-4)**
+
+Para cada tesis:
+
+1. Identificar capítulos relevantes:
+   - "Caracterización del sitio"
+   - "Análisis de ruta"
+   - "Diseño técnico"
+   - "Resultados"
+   - "Costos"
+
+2. Buscar estos datos específicos:
+```
+DATOS REQUERIDOS (por proyecto):
+
+Geográficos:
+□ Ubicación (ciudad, sector)
+□ Longitud de ruta (km)
+□ Zona (urbana/suburbana/rural)
+
+Topográficos:
+□ Pendiente promedio (%)
+□ Pendiente máxima (%)
+□ Elevación mínima (m)
+□ Elevación máxima (m)
+□ Desnivel total (m)
+
+Ambientales:
+□ Vegetación estimada (%)
+□ Tipo de vegetación (árboles/arbustos)
+□ Proximidad a ríos/esteros (m)
+□ Zona inundable (sí/no)
+
+Infraestructura:
+□ Número de postes necesarios
+□ Postes existentes aprovechables
+□ Cruces con líneas eléctricas
+□ Altura de edificios cercanos (m)
+
+Configuración técnica:
+□ Split utilizado (1:8, 1:32, 1:64)
+□ Número de clientes objetivo
+□ Tipo de cable usado
+
+Resultados:
+□ Complejidad reportada (si mencionan)
+□ Costo total del proyecto (USD)
+□ Costo por km (USD/km)
+□ Tiempo de instalación (días)
+□ Problemas encontrados
+□ Nivel de éxito
+Si falta algún dato:
+Marcar como "N/A"
+O estimar razonablemente (documentar supuesto)
+Actividad 3: Creación de dataset (Días 5-6)
+
+Crear archivo Excel/CSV con estructura:
+
+csv
+id,fuente,ubicacion,longitud_km,zona,pend_prom,pend_max,elev_min,elev_max,desnivel,vegetacion_pct,tipo_veg,dist_rio,zona_inund,num_postes,postes_exist,cruces_elect,altura_edif,split,clientes,tipo_cable,costo_total,costo_km,dias_instal,problemas,complejidad_reportada
+
+1,ESPOL_2023,Guayaquil_Urdesa,4.2,urbana,8,15,12,45,33,25,arboles,280,no,76,45,2,18,1:32,250,drop24,18500,4404,32,poda_arboles,MEDIA
+
+2,EPN_2022,Quito_Norte,6.8,suburbana,14,22,2650,2720,70,55,mixta,450,no,124,0,3,12,1:64,420,drop48,31200,4588,48,permisos_lento,ALTA
+
+3,ESPOL_2021,Guayaquil_Via_Costa,3.5,urbana,6,10,8,25,17,15,arbustos,1200,no,64,38,1,15,1:32,180,drop24,13800,3943,24,ninguno,BAJA
+
+...
+```
+
+**Meta:** 20-50 filas completadas
+
+---
+
+**Actividad 4: Validación y limpieza (Día 7)**
+
+1. Verificar consistencia:
+   - ¿Todos los costos son realistas ($2,500-6,000/km)?
+   - ¿Las pendientes son coherentes?
+   - ¿Las longitudes son razonables (0.5-20 km)?
+
+2. Rellenar gaps:
+   - Si falta `vegetacion_pct`, estimar por tipo de zona
+   - Si falta `dist_rio`, usar mapas de Guayaquil
+
+3. Documentar supuestos:
+```
+   - Casos sin pendiente explícita: asumido 5% para urbano plano
+   - Vegetación no especificada: 20% para urbano, 60% para suburbano
+```
+
+**Entregable:** `dataset_ftth_aereo_ecuador.csv` (20-50 casos)
+
+---
+
+## **FASE 2: ETIQUETADO CON SISTEMA EXPERTO** (3 días)
+
+### **Objetivo:** Asignar complejidad a cada caso usando reglas
+
+**Actividad 1: Documentar sistema de scoring (Día 1)**
+
+Crear documento con tus reglas:
+```
+SISTEMA DE SCORING PARA COMPLEJIDAD AÉREA
+
+PUNTUACIÓN TOTAL = suma de factores
+
+Factor 1: PENDIENTE PROMEDIO
+- 0-5%:     0 puntos (plano, ideal)
+- 6-12%:    1 punto  (moderado, manejable)
+- 13-20%:   2 puntos (moderado-alto, tensores)
+- 21-30%:   3 puntos (alto, anclajes)
+- >30%:     4 puntos (severo, complejo)
+
+Factor 2: VEGETACIÓN
+- 0-20%:    0 puntos (baja, limpieza mínima)
+- 21-40%:   1 punto  (moderada, poda selectiva)
+- 41-60%:   2 puntos (alta, poda extensa)
+- >60%:     3 puntos (muy alta, limpieza mayor)
+
+Factor 3: LONGITUD
+- 0-3 km:   0 puntos (corta)
+- 3-6 km:   1 punto  (media)
+- 6-10 km:  2 puntos (larga)
+- >10 km:   3 puntos (muy larga)
+
+Factor 4: ZONA
+- Urbana densa: 0 puntos (infraestructura existente)
+- Urbana:       1 punto
+- Suburbana:    2 puntos
+- Rural:        3 puntos (instalación desde cero)
+
+Factor 5: CRUCES ELÉCTRICOS
+- 0 cruces:   0 puntos
+- 1-2:        1 punto
+- 3-5:        2 puntos
+- >5:         3 puntos
+
+Factor 6: RIESGO AMBIENTAL
+- Dist río >500m:       0 puntos
+- Dist río 200-500m:    1 punto
+- Dist río <200m:       2 puntos
+- Zona inundable SÍ:    +1 punto adicional
+
+Factor 7: POSTES EXISTENTES
+- >50% aprovechables:   0 puntos (facilita)
+- 20-50% aprovechables: 1 punto
+- <20% aprovechables:   2 puntos (instalación nueva)
+
+CLASIFICACIÓN FINAL:
+- Score 0-4:   COMPLEJIDAD BAJA
+- Score 5-9:   COMPLEJIDAD MEDIA
+- Score 10+:   COMPLEJIDAD ALTA
+
+FUENTE: Basado en ITU-T L.127, ARCONEL 004/01, 
+        mejores prácticas FTTH Council
+Actividad 2: Implementar en Python (Día 2)
+
+python
+# Archivo: sistema_experto_aereo.py
+
+def clasificar_complejidad_aerea(caso):
+    """
+    Sistema experto para clasificar complejidad 
+    de despliegue FTTH aéreo
+    
+    Input: dict con datos del caso
+    Output: "BAJA", "MEDIA", "ALTA"
+    """
+    
+    score = 0
+    justificaciones = []
+    
+    # Factor 1: Pendiente
+    pend = caso.get('pendiente_prom', 5)
+    if pend > 30:
+        score += 4
+        justificaciones.append(f"Pendiente severa ({pend}%)")
+    elif pend > 20:
+        score += 3
+        justificaciones.append(f"Pendiente alta ({pend}%)")
+    elif pend > 12:
+        score += 2
+        justificaciones.append(f"Pendiente moderada-alta ({pend}%)")
+    elif pend > 5:
+        score += 1
+    
+    # Factor 2: Vegetación
+    veg = caso.get('vegetacion_pct', 20)
+    if veg > 60:
+        score += 3
+        justificaciones.append(f"Vegetación muy densa ({veg}%)")
+    elif veg > 40:
+        score += 2
+        justificaciones.append(f"Vegetación alta ({veg}%)")
+    elif veg > 20:
+        score += 1
+    
+    # Factor 3: Longitud
+    long = caso.get('longitud_km', 5)
+    if long > 10:
+        score += 3
+        justificaciones.append(f"Ruta muy larga ({long} km)")
+    elif long > 6:
+        score += 2
+        justificaciones.append(f"Ruta larga ({long} km)")
+    elif long > 3:
+        score += 1
+    
+    # Factor 4: Zona
+    zona = caso.get('zona', 'urbana')
+    if zona == 'rural':
+        score += 3
+        justificaciones.append("Zona rural (sin infraestructura)")
+    elif zona == 'suburbana':
+        score += 2
+    elif zona == 'urbana':
+        score += 1
+    # urbana densa = 0
+    
+    # Factor 5: Cruces eléctricos
+    cruces = caso.get('cruces_elect', 0)
+    if cruces > 5:
+        score += 3
+        justificaciones.append(f"Múltiples cruces eléctricos ({cruces})")
+    elif cruces > 2:
+        score += 2
+    elif cruces > 0:
+        score += 1
+    
+    # Factor 6: Riesgo ambiental
+    dist_rio = caso.get('dist_rio', 1000)
+    if dist_rio < 200:
+        score += 2
+        justificaciones.append(f"Proximidad río ({dist_rio}m)")
+    elif dist_rio < 500:
+        score += 1
+    
+    if caso.get('zona_inund', 'no') == 'si':
+        score += 1
+        justificaciones.append("Zona inundable")
+    
+    # Factor 7: Postes existentes
+    postes_exist = caso.get('postes_exist', 0)
+    num_postes = caso.get('num_postes', 100)
+    
+    if num_postes > 0:
+        pct_exist = (postes_exist / num_postes) * 100
+        if pct_exist < 20:
+            score += 2
+            justificaciones.append("Pocos postes aprovechables")
+        elif pct_exist < 50:
+            score += 1
+    
+    # Clasificación final
+    if score <= 4:
+        complejidad = "BAJA"
+    elif score <= 9:
+        complejidad = "MEDIA"
+    else:
+        complejidad = "ALTA"
+    
+    return {
+        'complejidad': complejidad,
+        'score': score,
+        'justificaciones': justificaciones
+    }
+Actividad 3: Etiquetar todos los casos (Día 3)
+
+python
+import pandas as pd
+
+# Cargar dataset
+df = pd.read_csv('dataset_ftth_aereo_ecuador.csv')
+
+# Etiquetar cada caso
+etiquetas = []
+scores = []
+
+for idx, caso in df.iterrows():
+    resultado = clasificar_complejidad_aerea(caso.to_dict())
+    etiquetas.append(resultado['complejidad'])
+    scores.append(resultado['score'])
+    
+    print(f"Caso {idx+1}: {resultado['complejidad']} (score: {resultado['score']})")
+    for just in resultado['justificaciones']:
+        print(f"  - {just}")
+
+# Agregar etiquetas al dataset
+df['complejidad'] = etiquetas
+df['score'] = scores
+
+# Guardar dataset etiquetado
+df.to_csv('dataset_ftth_aereo_etiquetado.csv', index=False)
+
+# Estadísticas
+print("\nDistribución de complejidad:")
+print(df['complejidad'].value_counts())
+# Ejemplo output:
+# MEDIA    18
+# ALTA     12
+# BAJA      8
+Entregable: Dataset con columna complejidad asignada
+
+FASE 3: ENTRENAMIENTO DE MODELOS ML (3 días)
+Modelo 1: Clasificador de Complejidad
+Día 1: Preparación de datos
+
+python
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import LabelEncoder
+
+# Cargar dataset etiquetado
+df = pd.read_csv('dataset_ftth_aereo_etiquetado.csv')
+
+# Seleccionar features relevantes para ML
+features = [
+    'longitud_km',
+    'pendiente_prom',
+    'pendiente_max',
+    'desnivel',
+    'vegetacion_pct',
+    'dist_rio',
+    'num_postes',
+    'postes_exist',
+    'cruces_elect',
+    'altura_edif',
+    'clientes'
+]
+
+# Codificar variables categóricas
+# Zona: urbana=2, suburbana=1, rural=0
+zona_encoder = {'urbana': 2, 'suburbana': 1, 'rural': 0}
+df['zona_cod'] = df['zona'].map(zona_encoder)
+
+# Split: 1:64=2, 1:32=1, 1:8=0
+split_encoder = {'1:64': 2, '1:32': 1, '1:8': 0}
+df['split_cod'] = df['split'].map(split_encoder)
+
+# Zona inundable: si=1, no=0
+df['zona_inund_cod'] = (df['zona_inund'] == 'si').astype(int)
+
+features.extend(['zona_cod', 'split_cod', 'zona_inund_cod'])
+
+# Variables X (features) y (target)
+X = df[features].fillna(0).values
+y = df['complejidad'].values
+
+# Codificar target
+label_encoder = LabelEncoder()
+y_encoded = label_encoder.fit_transform(y)
+# BAJA=0, MEDIA=1, ALTA=2
+
+# Split train/test (80/20)
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y_encoded, 
+    test_size=0.2, 
+    random_state=42, 
+    stratify=y_encoded  # Mantener proporción de clases
+)
+
+print(f"Training set: {len(X_train)} casos")
+print(f"Test set: {len(X_test)} casos")
+Día 2: Entrenamiento y evaluación
+
+python
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import (
+    accuracy_score, 
+    classification_report, 
+    confusion_matrix
+)
+import joblib
+
+# Entrenar Random Forest
+modelo_complejidad = RandomForestClassifier(
+    n_estimators=100,       # 100 árboles
+    max_depth=6,            # Profundidad limitada
+    min_samples_split=5,    # Mínimo para dividir
+    min_samples_leaf=2,     # Mínimo en hojas
+    random_state=42
+)
+
+modelo_complejidad.fit(X_train, y_train)
+
+# Predecir en test set
+y_pred = modelo_complejidad.predict(X_test)
+
+# Evaluar
+accuracy = accuracy_score(y_test, y_pred)
+print(f"\n==== RESULTADOS ====")
+print(f"Accuracy: {accuracy:.2%}")
+
+print("\nReporte por clase:")
+print(
+
+=========================================================
+
+¿Cómo exactamente extraes los datos de ArcGIS cuando el usuario traza la ruta? la opción A, En tiempo real (llamadas API cada vez que trazan ruta) → más lento pero datos actualizados.
+
+La base de datos oficial será PostgreSQL, por el momento para prueba estoy utilizando neon.tech, Python para el backend, HTML + CSS + JS para el frontend, para el mapa que la web OpenStreet Map, Docker para poder compartir el proyecto con mi compañera de tesis, por ahora estoy utilizando cohere api, solo por prueba despues pasare a GPT-4, Ahora toca darte contexto de todo lo que tengo hecho.
+
+=============================================================
+
+Ok, otra cosita por ahora estoy utilizando Cohere pero eventualmente yo cuando yo lo decida me pasare a GPT-4 para mas potencia, eficiencia y solidez en las recomendaciones.
+
+La carpeta principal es FTTH dentro de la carpeta frontend >> js >> login.js y main.js; dentro de css >>login.css y styles.css.
+
+Dentro de backend >> requirements.txt, .env, carpeta app y Dockerfile.
+
+Dentro de la carpeta app >> api >> ai_recommendations.py, config_db.py, data.py, __init__.py, config.py, analyze.py.
+
+Dentro de la carpeta core >> config.py
+
+=============================================
+

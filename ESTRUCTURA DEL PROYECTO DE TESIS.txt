@@ -1,0 +1,43 @@
+FLUJO CORRECTO DEL SISTEMA
+┌─────────────────────────────────────────────────────────────┐
+│  USUARIO INTERACTÚA                                         │
+│  1. Selecciona opciones técnicas (split, arquitectura, etc) │
+│  2. Traza ruta en el mapa                                   │
+│  3. Click "Obtener Datos" → guarda en BD                    │
+│  4. Click "Analizar Entorno" → GENERA RECOMENDACIONES      │
+└─────────────────────────────────────────────────────────────┘
+                              ↓
+┌─────────────────────────────────────────────────────────────┐
+│  BACKEND PROCESA (cuando da click en "Analizar Entorno")   │
+│                                                             │
+│  A. Obtiene datos guardados (BD)                           │
+│     - GeoJSON de la ruta                                   │
+│     - Configuración del usuario                            │
+│     - Datos de ArcGIS (ya extraídos)                       │
+│                                                             │
+│  B. Consulta BASE DE CONOCIMIENTO                          │
+│     ├─ 1. Sistema de Reglas (evalúa vs normativas)        │
+│     ├─ 2. Modelos ML (predice complejidad/costo)          │
+│     └─ 3. RAG Tesis (busca casos similares)               │
+│                                                             │
+│  C. Construye PROMPT MEGA para GPT-4                       │
+│     Input al prompt:                                       │
+│     - Datos reales de ArcGIS                              │
+│     - Configuración usuario                               │
+│     - Alertas del sistema de reglas                       │
+│     - Predicciones de ML                                  │
+│     - Contexto de tesis similares (RAG)                   │
+│                                                             │
+│  D. GPT-4 SINTETIZA TODO                                   │
+│     Output: Recomendaciones en lenguaje natural            │
+│             con estructura definida                        │
+└─────────────────────────────────────────────────────────────┘
+                              ↓
+┌─────────────────────────────────────────────────────────────┐
+│  FRONTEND MUESTRA                                           │
+│  - Resumen ejecutivo                                       │
+│  - Análisis topográfico                                    │
+│  - Recomendaciones técnicas                                │
+│  - Presupuesto                                             │
+│  - Riesgos                                                 │
+│  - Estrategia de despliegue

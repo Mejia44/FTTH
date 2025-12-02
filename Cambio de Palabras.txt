@@ -1,0 +1,44 @@
+REINICIAR EL BACKEND:
+docker compose restart backend
+
+INICIAR BACKEND
+docker compose up -d
+docker-compose up
+
+# parar y eliminar contenedores pero mantener volúmenes (PostGIS queda guardado)
+docker compose down
+
+PARA BACKEND (Para dejar en standby y eventualmente seguir)
+docker compose stop
+
+CONTINUAR DESARROLLANDO
+docker compose start
+
+# COMPROBAR ESTADO DEL BACKEND
+docker compose ps
+
+======================================================== 
+
+CLAVE API KEY COHERE
+ESIkQjieYxDFjusEkDKqCN00uGcyj2xMky4nZmsm
+
+========================================================
+
+//VERIFICAR SI ESOS DATOS GUARDADOS SON LOS MISMOS Y LISTA DE TODOS LOS DATOS GUARDADOS
+
+docker compose exec db psql -U ftthusuario -d ftth -c "SELECT id, created_at, config FROM user_configs ORDER BY id DESC LIMIT 5;"
+
+==========================================
+
+# Detener todo
+docker-compose down
+
+============================================
+
+# Reconstruir con las nuevas dependencias
+docker-compose up --build
+
+======================================
+
+
+"Desarrollo de un sitio web para el análisis de entorno de la ruta de despliegue de red ftth, generando recomendaciones específicas basada en IA por tipo de construcción aérea para optimizar la toma de decisiones en fase de pre-factibilidad"

@@ -1,0 +1,131 @@
+### 3. Crear base de datos en Neon.tech
+
+1. Ve a https://neon.tech
+2. Crea cuenta gratuita
+3. Crea nuevo proyecto
+4. Copia las credenciales al archivo `.env`
+5. En el Query Editor de Neon, ejecuta este SQL:
+```sql
+CREATE TABLE IF NOT EXISTS user_configs (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER,
+    name VARCHAR(255),
+    config JSONB,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS collected_data (
+    id SERIAL PRIMARY KEY,
+    config_id INTEGER REFERENCES user_configs(id),
+    geojson JSONB NOT NULL,
+    step_m INTEGER DEFAULT 20,
+    metadata JSONB,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+### 4. Obtener API Key de Cohere
+
+1. Ve a https://cohere.com
+2. Crea cuenta gratuita
+3. Dashboard → API Keys → Generate new key
+4. Copia la key al archivo `.env`
+
+### 5. Ejecutar con Docker
+
+1. Abre **Docker Desktop**
+2. Abre **PowerShell** o **CMD** en la carpeta del proyecto:
+   - En Windows: Shift + Click derecho en carpeta FTTH → "Abrir ventana de PowerShell aquí"
+3. Ejecuta:
+```bash
+docker-compose up --build
+```
+
+4. Espera 3-5 minutos (primera vez)
+5. Abre navegador: **http://localhost:8000**
+
+
+
+### **3. Instalar Docker Desktop**
+
+1. Ve a: https://www.docker.com/products/docker-desktop/
+
+2. Click **"Download for Windows"**
+
+3. **Ejecuta** el instalador descargado
+
+4. Sigue las instrucciones (acepta todo por defecto)
+
+5. **Reinicia** tu computadora cuando te lo pida
+
+6. Después del reinicio, **abre Docker Desktop**
+
+7. Acepta los términos
+
+8. Puedes saltar el tutorial
+
+9. **Deja Docker Desktop abierto** (ícono en la bandeja del sistema)
+
+---
+
+### **4. Ejecutar el proyecto**
+
+1. **Abre PowerShell** en la carpeta del proyecto:
+   
+   - Ve a la carpeta `ftth-analyzer/`
+   - Mantén presionado **Shift**
+   - **Click derecho** en espacio vacío
+   - Click en **"Abrir ventana de PowerShell aquí"**
+   
+   (Si no aparece esa opción, abre PowerShell y escribe):
+```
+   cd C:\ruta\donde\esta\ftth-analyzer
+```
+
+2. **Ejecuta este comando:**
+```
+   docker-compose up --build
+```
+
+3. **Presiona Enter**
+
+4. **Espera** (primera vez tarda 3-5 minutos)
+   
+   Verás muchas líneas de texto descargando cosas. Es normal.
+
+5. **Cuando veas:**
+```
+   backend_1  | INFO:     Application startup complete.
+```
+   
+   ¡Significa que está listo!
+
+6. **Abre tu navegador** y ve a:
+```
+   http://localhost:8000
+```
+
+7. **¡Deberías ver la página de FTTH Analyzer!** 🎉
+
+---
+
+### **5. Detener el proyecto**
+
+Cuando termines de trabajar:
+
+1. En la ventana de PowerShell presiona: **Ctrl + C**
+2. Espera unos segundos
+3. Escribe: `docker-compose down`
+4. Presiona Enter
+5. Puedes cerrar Docker Desktop
+
+---
+
+### **6. Volver a ejecutar (días siguientes)**
+
+1. Abre Docker Desktop
+2. Abre PowerShell en carpeta del proyecto
+3. Ejecuta: `docker-compose up`
+4. Abre: http://localhost:8000
+
+(Ya no necesitas `--build`, solo la primera vez)

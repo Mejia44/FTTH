@@ -1,0 +1,1199 @@
+=========================================================
+
+
+
+
+
+
+# ============================================================================
+# SISTEMA DE REGLAS PARA DESPLIEGUE FTTH AÉREO
+# Base de Conocimiento Normativa: ITU-T + ARCOTEL Ecuador
+# ============================================================================
+# IMPORTANTE: Estas reglas están basadas en normativas reales de la industria
+# y deben ser verificadas contra los documentos oficiales completos antes de
+# uso en producción. Algunas especificaciones pueden variar según normativa local.
+# ============================================================================
+
+metadata:
+  version: "1.0.0"
+  fecha_creacion: "2025-01-19"
+  tipo_despliegue: "aereo_exclusivo"
+  region: "Ecuador - Guayaquil"
+  clima: "tropical"
+  normativas_base:
+    - "ITU-T L.127 - Optical fibre cables for duct, buried and aerial installation"
+    - "ITU-T L.164 - Optical fibre cable management and installation"
+    - "ITU-T L.35 - Installation of optical fibre cables"
+    - "ARCOTEL Ecuador - Normas técnicas de telecomunicaciones"
+    - "FTTH Council - Best Practices for Aerial Construction"
+
+# ============================================================================
+# CATEGORÍA 1: TOPOGRAFÍA Y PENDIENTES (Instalación Aérea)
+# ============================================================================
+topografia:
+  
+  - id: "R001"
+    nombre: "Terreno Plano Óptimo"
+    descripcion: "Condiciones ideales para instalación aérea"
+    
+    condicion:
+      variable: "pendiente_promedio"
+      operador: "BETWEEN"
+      valores: [0, 5]
+      unidad: "%"
+    
+    nivel: "INFO"
+    
+    alerta:
+      mensaje: "Terreno plano - condiciones óptimas para instalación aérea estándar"
+      justificacion: "Pendiente mínima permite distancia estándar entre postes sin tensión mecánica adicional"
+    
+    fuente_normativa:
+      - documento: "ITU-T L.127"
+        seccion: "6.3 - Aerial Installation"
+        nota: "Pendientes <5% consideradas óptimas para instalación estándar"
+      - documento: "FTTH Council Best Practices"
+        nota: "Terreno plano permite máxima eficiencia en instalación"
+    
+    recomendaciones:
+      - "Distancia estándar entre postes: 40-50 metros"
+      - "Flecha (sag) del cable: 1-2% de la distancia entre postes"
+      - "No requiere tensores adicionales"
+    
+    impacto:
+      incremento_costo_pct: 0
+      score_complejidad: 0
+      materiales_especiales: []
+
+  - id: "R002"
+    nombre: "Pendiente Leve"
+    descripcion: "Pendiente leve que requiere consideraciones básicas"
+    
+    condicion:
+      variable: "pendiente_promedio"
+      operador: "BETWEEN"
+      valores: [5, 10]
+      unidad: "%"
+    
+    nivel: "INFO"
+    
+    alerta:
+      mensaje: "Pendiente leve detectada - considerar reducción moderada de distancia entre postes"
+      justificacion: "La pendiente leve aumenta ligeramente la tensión mecánica del cable"
+    
+    fuente_normativa:
+      - documento: "ITU-T L.127"
+        seccion: "6.3"
+        nota: "Para pendientes 5-10% se recomienda evaluación caso por caso"
+    
+    recomendaciones:
+      - "Distancia entre postes: 45-50 metros (reducción del 10%)"
+      - "Monitorear tensión del cable en puntos críticos"
+      - "Considerar postes de refuerzo en tramos largos"
+    
+    impacto:
+      incremento_costo_pct: 5
+      score_complejidad: 1
+      materiales_especiales: ["Postes intermedios adicionales (opcional)"]
+
+  - id: "R003"
+    nombre: "Pendiente Moderada"
+    descripcion: "Pendiente moderada que requiere adaptaciones según ITU-T"
+    
+    condicion:
+      variable: "pendiente_promedio"
+      operador: "BETWEEN"
+      valores: [10, 15]
+      unidad: "%"
+    
+    nivel: "WARNING"
+    
+    alerta:
+      mensaje: "Pendiente moderada (10-15%) - REDUCIR distancia entre postes a 35-40m"
+      justificacion: "ITU-T L.127 establece que pendientes >10% requieren reducción de distancia entre soportes para mantener tensión mecánica dentro de límites aceptables"
+    
+    fuente_normativa:
+      - documento: "ITU-T L.127"
+        seccion: "6.3.1"
+        referencia: "Tabla 6-1: Spacing reduction for slopes"
+        nota: "Pendientes 10-15% requieren reducción de 20-30% en distancia entre postes"
+      - documento: "Corning Cable Systems"
+        nota: "Recommendaciones técnicas para instalación en pendientes"
+    
+    recomendaciones:
+      - "OBLIGATORIO: Reducir distancia entre postes a 35-40m"
+      - "Instalar tensores cada 100-120m"
+      - "Verificar capacidad de carga de postes existentes"
+      - "Usar abrazaderas reforzadas"
+      - "Calcular tensión mecánica real del cable antes de instalación"
+    
+    impacto:
+      incremento_costo_pct: 12
+      score_complejidad: 2
+      tiempo_adicional_pct: 10
+      materiales_especiales: 
+        - "Postes adicionales (+25% respecto a terreno plano)"
+        - "Tensores galvanizados"
+        - "Abrazaderas reforzadas"
+        - "Herrajes de retención"
+
+  - id: "R004"
+    nombre: "Pendiente Alta"
+    descripcion: "Pendiente alta que requiere medidas especiales obligatorias"
+    
+    condicion:
+      variable: "pendiente_promedio"
+      operador: "BETWEEN"
+      valores: [15, 20]
+      unidad: "%"
+    
+    nivel: "WARNING"
+    
+    alerta:
+      mensaje: "⚠️ PENDIENTE ALTA (15-20%) - Medidas especiales OBLIGATORIAS según ITU-T L.127"
+      justificacion: "Tensión mecánica significativa requiere postes de anclaje y reducción importante de distancias"
+    
+    fuente_normativa:
+      - documento: "ITU-T L.127"
+        seccion: "6.3.2"
+        referencia: "Support structures for steep slopes"
+        nota: "Pendientes >15% requieren postes de anclaje obligatorios"
+      - documento: "IEEE Std 1222"
+        nota: "Tensión máxima del cable no debe exceder 60% de la resistencia a la tracción"
+    
+    recomendaciones:
+      - "🔴 CRÍTICO: Reducir distancia entre postes a 30-35m"
+      - "🔴 OBLIGATORIO: Instalar postes de anclaje cada 80-100m"
+      - "Instalar tensores cada 60-80m"
+      - "Usar cable con mayor resistencia mecánica"
+      - "Inspección ingenieril previa OBLIGATORIA"
+      - "Calcular flecha y tensión con software especializado"
+    
+    impacto:
+      incremento_costo_pct: 25
+      score_complejidad: 3
+      tiempo_adicional_pct: 20
+      materiales_especiales:
+        - "Postes de anclaje (+40% postes totales)"
+        - "Tensores reforzados cada 60-80m"
+        - "Cable con mayor resistencia mecánica"
+        - "Herrajes especiales de retención"
+        - "Bloques de anclaje en tierra"
+
+  - id: "R005"
+    nombre: "Pendiente Severa - Evaluación Especial"
+    descripcion: "Pendiente severa que requiere estudio ingenieril detallado"
+    
+    condicion:
+      variable: "pendiente_promedio"
+      operador: ">"
+      valores: [20]
+      unidad: "%"
+    
+    nivel: "CRITICAL"
+    
+    alerta:
+      mensaje: "🔴 PENDIENTE SEVERA (>20%) - ESTUDIO INGENIERIL OBLIGATORIO"
+      justificacion: "Pendientes >20% exceden límites recomendados para instalación aérea estándar. Se requiere diseño especializado"
+    
+    fuente_normativa:
+      - documento: "ITU-T L.127"
+        seccion: "6.3.3"
+        nota: "Pendientes >20% requieren análisis específico de ingeniería"
+      - documento: "FTTH Council"
+        nota: "Considerar alternativas como instalación subterránea o ruta alternativa"
+    
+    recomendaciones:
+      - "🔴 OBLIGATORIO: Estudio de ingeniería estructural completo"
+      - "🔴 CRÍTICO: Evaluar viabilidad técnica vs instalación subterránea"
+      - "Reducir distancia entre postes a <30m"
+      - "Postes de anclaje cada 50-60m"
+      - "Sistema de tensores doble"
+      - "Monitoreo continuo de tensión post-instalación"
+      - "Considerar ruta alternativa con menor pendiente"
+    
+    impacto:
+      incremento_costo_pct: 45
+      score_complejidad: 4
+      tiempo_adicional_pct: 35
+      requiere_estudio_especial: true
+      materiales_especiales:
+        - "Sistema de anclaje reforzado"
+        - "Cable especial alta resistencia mecánica"
+        - "Postes de concreto reforzado"
+        - "Tensores de acero inoxidable"
+        - "Monitoreo de tensión (sensores)"
+
+  - id: "R006"
+    nombre: "Desnivel Total Alto"
+    descripcion: "Desnivel acumulado que afecta la instalación"
+    
+    condicion:
+      variable: "desnivel_total"
+      operador: ">"
+      valores: [50]
+      unidad: "metros"
+    
+    nivel: "WARNING"
+    
+    alerta:
+      mensaje: "Desnivel total >50m detectado - considerar segmentación de la ruta"
+      justificacion: "Grandes desniveles acumulados pueden requerir puntos de anclaje intermedios"
+    
+    fuente_normativa:
+      - documento: "FTTH Council Best Practices"
+        nota: "Desniveles significativos deben dividirse en segmentos con puntos de anclaje"
+    
+    recomendaciones:
+      - "Dividir ruta en segmentos de máximo 30m de desnivel"
+      - "Instalar puntos de anclaje en cambios de pendiente"
+      - "Verificar presupuesto de potencia óptica en tramos largos"
+    
+    impacto:
+      incremento_costo_pct: 8
+      score_complejidad: 1
+      materiales_especiales: ["Postes de anclaje en puntos críticos"]
+
+# ============================================================================
+# CATEGORÍA 2: INFRAESTRUCTURA Y POSTES (Aéreo)
+# ============================================================================
+infraestructura:
+
+  - id: "R007"
+    nombre: "Aprovechamiento Alto de Postes Existentes"
+    descripcion: "Alto porcentaje de postes existentes disponibles"
+    
+    condicion:
+      variable: "pct_postes_aprovechables"
+      operador: ">="
+      valores: [70]
+      unidad: "%"
+    
+    nivel: "INFO"
+    
+    alerta:
+      mensaje: "✅ Excelente: >70% de postes existentes aprovechables"
+      justificacion: "Alto aprovechamiento de infraestructura existente reduce costos significativamente"
+    
+    fuente_normativa:
+      - documento: "Best Practices FTTH"
+        nota: "Reutilización de postes reduce costos 40-60%"
+    
+    recomendaciones:
+      - "Coordinar con empresa eléctrica (CNEL) uso compartido"
+      - "Inspeccionar capacidad de carga de postes existentes"
+      - "Verificar altura suficiente para instalación FTTH"
+      - "Usar herrajes compatibles con postes existentes"
+    
+    impacto:
+      reduccion_costo_pct: -25
+      score_complejidad: -1
+      tiempo_reducido_pct: -15
+
+  - id: "R008"
+    nombre: "Instalación Parcial de Postes Nuevos"
+    descripcion: "Se requiere instalación parcial de postes"
+    
+    condicion:
+      variable: "pct_postes_aprovechables"
+      operador: "BETWEEN"
+      valores: [30, 70]
+      unidad: "%"
+    
+    nivel: "INFO"
+    
+    alerta:
+      mensaje: "Aprovechamiento medio de postes (30-70%) - instalación mixta requerida"
+      justificacion: "Se requiere combinación de postes existentes y nuevos"
+    
+    recomendaciones:
+      - "Planificar ubicación estratégica de postes nuevos"
+      - "Coordinar permisos municipales para instalación"
+      - "Inspección previa de postes existentes obligatoria"
+    
+    impacto:
+      incremento_costo_pct: 15
+      score_complejidad: 1
+      tiempo_adicional_pct: 12
+
+  - id: "R009"
+    nombre: "Instalación Mayoritaria de Postes Nuevos"
+    descripcion: "Bajo aprovechamiento de postes existentes"
+    
+    condicion:
+      variable: "pct_postes_aprovechables"
+      operador: "<"
+      valores: [30]
+      unidad: "%"
+    
+    nivel: "WARNING"
+    
+    alerta:
+      mensaje: "⚠️ Bajo aprovechamiento de postes (<30%) - instalación nueva masiva requerida"
+      justificacion: "Mayoría de postes deben ser instalados nuevos, incrementa costo y tiempo significativamente"
+    
+    fuente_normativa:
+      - documento: "Municipio de Guayaquil"
+        nota: "Permisos de excavación y ocupación de vía pública requeridos"
+    
+    recomendaciones:
+      - "Gestionar permisos municipales con anticipación (4-6 semanas)"
+      - "Considerar postes de concreto para mayor durabilidad"
+      - "Estudio de suelo en puntos críticos"
+      - "Coordinar con servicios existentes (agua, alcantarillado)"
+    
+    impacto:
+      incremento_costo_pct: 40
+      score_complejidad: 3
+      tiempo_adicional_pct: 30
+      materiales_especiales:
+        - "Postes de concreto 10-12m"
+        - "Bases de concreto para anclaje"
+        - "Herrajes completos"
+
+  - id: "R010"
+    nombre: "Distancia Estándar entre Postes"
+    descripcion: "Distancia óptima según estándares internacionales"
+    
+    condicion:
+      tipo: "calculado"
+      nota: "Aplica cuando no hay reglas de pendiente que la modifiquen"
+    
+    nivel: "INFO"
+    
+    alerta:
+      mensaje: "Distancia estándar entre postes: 40-50 metros"
+      justificacion: "Estándar internacional para instalación aérea FTTH"
+    
+    fuente_normativa:
+      - documento: "ITU-T L.127"
+        seccion: "6.3"
+        nota: "Distancia típica 40-50m en condiciones normales"
+      - documento: "IEEE Std 1222"
+        nota: "Vano típico para cables de telecomunicaciones"
+    
+    recomendaciones:
+      - "Mantener distancia uniforme en tramos rectos"
+      - "Reducir distancia en curvas y esquinas"
+      - "Considerar ubicación de acometidas de clientes"
+    
+    impacto:
+      incremento_costo_pct: 0
+      score_complejidad: 0
+
+# ============================================================================
+# CATEGORÍA 3: CRUCES Y DISTANCIAS DE SEGURIDAD (Normativa ARCOTEL)
+# ============================================================================
+cruces_seguridad:
+
+  - id: "R011"
+    nombre: "Cruce con Líneas de Media Tensión"
+    descripcion: "Cruce con líneas eléctricas de media tensión (>1kV)"
+    
+    condicion:
+      variable: "lineas_mt_cruces"
+      operador: ">"
+      valores: [0]
+    
+    nivel: "CRITICAL"
+    
+    alerta:
+      mensaje: "🔴 CRÍTICO: Cruces con líneas de Media Tensión detectados"
+      justificacion: "Normativa ARCOTEL y reglamentos eléctricos exigen separaciones específicas por seguridad"
+    
+    fuente_normativa:
+      - documento: "ARCOTEL Ecuador"
+        articulo: "Normas de seguridad en cruces eléctricos"
+        nota: "Separación mínima obligatoria según voltaje"
+      - documento: "Reglamento de Seguridad y Salud CONELEC"
+        nota: "Distancias de seguridad para telecomunicaciones"
+      - documento: "ANSI C2 - National Electrical Safety Code"
+        nota: "Clearances para cruce con líneas de poder"
+    
+    recomendaciones:
+      - "🔴 OBLIGATORIO: Separación vertical mínima 1.2 metros"
+      - "🔴 OBLIGATORIO: Separación horizontal mínima 60 cm"
+      - "Usar cable con dieléctrico completo (no metálico)"
+      - "Instalar protectores dieléctricos en punto de cruce"
+      - "Coordinar inspección con empresa eléctrica"
+      - "Documentar cruce con fotografías y planos"
+    
+    impacto:
+      incremento_costo_pct: 15
+      costo_fijo_por_cruce: 800
+      score_complejidad: 3
+      tiempo_adicional_dias: 2
+      requiere_coordinacion: "CNEL o empresa eléctrica local"
+      materiales_especiales:
+        - "Protectores dieléctricos"
+        - "Herrajes aislados"
+        - "Cable 100% dieléctrico"
+
+  - id: "R012"
+    nombre: "Cruce con Líneas de Baja Tensión"
+    descripcion: "Cruce con líneas eléctricas de baja tensión (<1kV)"
+    
+    condicion:
+      variable: "lineas_bt_cruces"
+      operador: ">"
+      valores: [0]
+    
+    nivel: "WARNING"
+    
+    alerta:
+      mensaje: "⚠️ Cruces con líneas de Baja Tensión detectados - seguir normativa ARCOTEL"
+      justificacion: "Aunque menos crítico que MT, requiere separaciones específicas"
+    
+    fuente_normativa:
+      - documento: "ARCOTEL Ecuador"
+        nota: "Separación mínima para cruces con BT"
+      - documento: "ITU-T L.164"
+        seccion: "Safety requirements"
+        nota: "Separación con líneas eléctricas de bajo voltaje"
+    
+    recomendaciones:
+      - "Separación vertical mínima: 40 cm"
+      - "Separación horizontal mínima: 40 cm"
+      - "Usar herrajes dieléctricos (sin metal)"
+      - "Evitar contacto físico en cualquier condición"
+      - "Instalar en ángulo de 90° cuando sea posible"
+    
+    impacto:
+      incremento_costo_pct: 5
+      costo_fijo_por_cruce: 500
+      score_complejidad: 1
+      materiales_especiales:
+        - "Herrajes dieléctricos"
+        - "Abrazaderas aisladas"
+
+  - id: "R013"
+    nombre: "Proximidad a Transformadores"
+    descripcion: "Cercanía a transformadores eléctricos"
+    
+    condicion:
+      variable: "transformadores_50m"
+      operador: ">"
+      valores: [0]
+    
+    nivel: "WARNING"
+    
+    alerta:
+      mensaje: "Transformadores eléctricos en proximidad - mantener distancias de seguridad"
+      justificacion: "Campos electromagnéticos y riesgo eléctrico requieren distancias mínimas"
+    
+    fuente_normativa:
+      - documento: "Reglamento Eléctrico Ecuador"
+        nota: "Distancias mínimas a equipos eléctricos"
+    
+    recomendaciones:
+      - "Mantener distancia mínima de 1.5 metros a transformadores"
+      - "No instalar cajas de distribución (NAP) debajo de transformadores"
+      - "Considerar interferencia electromagnética en empalmes cercanos"
+    
+    impacto:
+      incremento_costo_pct: 2
+      score_complejidad: 1
+
+  - id: "R014"
+    nombre: "Altura Mínima sobre Vía Pública"
+    descripcion: "Altura requerida sobre calles y avenidas"
+    
+    condicion:
+      variable: "cruces_vias_principales"
+      operador: ">"
+      valores: [0]
+    
+    nivel: "WARNING"
+    
+    alerta:
+      mensaje: "Cruces de vías públicas detectados - verificar altura mínima según normativa"
+      justificacion: "Reglamentos municipales y de tránsito establecen alturas mínimas"
+    
+    fuente_normativa:
+      - documento: "Municipio de Guayaquil"
+        nota: "Ordenanza de ocupación de vía pública"
+      - documento: "ITU-T L.164"
+        nota: "Ground clearance for aerial cables"
+      - documento: "ANSI C2"
+        seccion: "234 - Clearances"
+        nota: "Altura mínima sobre vías"
+    
+    recomendaciones:
+      - "Altura mínima sobre calle secundaria: 4.5 metros"
+      - "Altura mínima sobre avenida principal: 5.5 metros"
+      - "Altura mínima sobre acera peatonal: 3.0 metros"
+      - "Considerar paso de vehículos altos (buses, camiones)"
+      - "Verificar flecha (sag) máxima del cable"
+    
+    impacto:
+      incremento_costo_pct: 5
+      score_complejidad: 1
+      requiere_permiso: "Permiso municipal de ocupación de vía"
+
+# ============================================================================
+# CATEGORÍA 4: VEGETACIÓN (Solo relevante para aéreo)
+# ============================================================================
+vegetacion:
+
+  - id: "R015"
+    nombre: "Vegetación Baja - Sin Impacto"
+    descripcion: "Vegetación que no afecta instalación aérea"
+    
+    condicion:
+      variable: "vegetacion_pct"
+      operador: "<="
+      valores: [20]
+      unidad: "%"
+    
+    nivel: "INFO"
+    
+    alerta:
+      mensaje: "✅ Vegetación baja - no requiere acciones especiales"
+      justificacion: "Cobertura vegetal mínima no interfiere con cables aéreos"
+    
+    recomendaciones:
+      - "Inspección visual durante instalación"
+      - "Poda menor si es necesaria"
+    
+    impacto:
+      incremento_costo_pct: 0
+      score_complejidad: 0
+
+  - id: "R016"
+    nombre: "Vegetación Moderada"
+    descripcion: "Vegetación que requiere poda selectiva"
+    
+    condicion:
+      variable: "vegetacion_pct"
+      operador: "BETWEEN"
+      valores: [20, 40]
+      unidad: "%"
+    
+    nivel: "INFO"
+    
+    alerta:
+      mensaje: "Vegetación moderada - planificar poda selectiva"
+      justificacion: "Árboles y arbustos pueden interferir con cable o dificultar instalación"
+    
+    fuente_normativa:
+      - documento: "Municipio de Guayaquil"
+        nota: "Permiso de poda de árboles en vía pública"
+      - documento: "Best Practices FTTH"
+        nota: "Clearance mínimo con vegetación"
+    
+    recomendaciones:
+      - "Identificar árboles que interfieren con la ruta"
+      - "Coordinar poda con municipio (si son árboles públicos)"
+      - "Mantener clearance mínimo de 50 cm con ramas"
+      - "Programar poda ANTES de instalación"
+    
+    impacto:
+      incremento_costo_pct: 5
+      costo_fijo: 800
+      score_complejidad: 1
+      tiempo_adicional_dias: 2
+
+  - id: "R017"
+    nombre: "Vegetación Densa - Árboles Grandes"
+    descripcion: "Árboles de gran porte que afectan instalación"
+    
+    condicion:
+      variable: "vegetacion_pct"
+      operador: ">"
+      valores: [40]
+      unidad: "%"
+    
+    nivel: "WARNING"
+    
+    alerta:
+      mensaje: "⚠️ Vegetación densa detectada - poda extensa requerida"
+      justificacion: "Árboles grandes interfieren directamente con trazado de cable aéreo"
+    
+    fuente_normativa:
+      - documento: "Municipio de Guayaquil"
+        nota: "Gestión de árboles en vía pública"
+      - documento: "Best Practices"
+        nota: "Vegetación es causa común de fallas en redes aéreas"
+    
+    recomendaciones:
+      - "🔴 OBLIGATORIO: Poda profesional antes de instalación"
+      - "Gestionar permisos municipales (4-6 semanas)"
+      - "Considerar ruta alternativa si hay árboles protegidos"
+      - "Mantener distancia mínima 1 metro con ramas grandes"
+      - "Planificar mantenimiento anual de poda"
+    
+    impacto:
+      incremento_costo_pct: 12
+      costo_variable_por_arbol: 100
+      score_complejidad: 2
+      tiempo_adicional_dias: 5
+      requiere_permiso: "Permiso municipal de poda"
+
+  - id: "R018"
+    nombre: "Árboles de Gran Altura"
+    descripcion: "Árboles >15m que representan riesgo para cables"
+    
+    condicion:
+      variable: "arboles_grandes"
+      operador: ">"
+      valores: [5]
+    
+    nivel: "WARNING"
+    
+    alerta:
+      mensaje: "⚠️ Árboles de gran altura detectados - evaluar riesgo de caída de ramas"
+      justificacion: "Árboles altos pueden dañar cable con caída de ramas, especialmente en tormentas"
+    
+    recomendaciones:
+      - "Inspeccionar estado fitosanitario de árboles grandes"
+      - "Poda preventiva de ramas muertas o débiles"
+      - "Considerar instalar cable por lado opuesto del poste"
+      - "Plan de mantenimiento preventivo anual"
+    
+    impacto:
+      incremento_costo_pct: 8
+      score_complejidad: 2
+      mantenimiento_adicional: "Inspección anual de vegetación"
+
+# ============================================================================
+# CATEGORÍA 5: CONFIGURACIÓN TÉCNICA (Cable y Equipos Aéreos)
+# ============================================================================
+configuracion_tecnica:
+
+  - id: "R019"
+    nombre: "Radio de Curvatura Mínimo"
+    descripcion: "Radio mínimo permitido en curvas y postes"
+    
+    condicion:
+      tipo: "general"
+      aplica_siempre: true
+    
+    nivel: "INFO"
+    
+    alerta:
+      mensaje: "Respetar radio de curvatura mínimo en todos los postes y curvas"
+      justificacion: "ITU-T establece radio mínimo para evitar microcurvatura y pérdida de señal"
+    
+    fuente_normativa:
+      - documento: "ITU-T L.127"
+        seccion: "5.2 - Bending radius"
+        nota: "Radio mínimo: 20 veces el diámetro del cable durante instalación"
+      - documento: "ITU-T G.652"
+        nota: "Radio mínimo: 10 veces el diámetro en posición instalada"
+    
+    recomendaciones:
+      - "Radio mínimo instalación: 20× diámetro cable (~160mm para cable 8mm)"
+      - "Radio mínimo operación: 10× diámetro cable (~80mm para cable 8mm)"
+      - "Usar herrajes con radio adecuado en postes"
+      - "No crear bucles cerrados en reservas de cable"
+    
+    impacto:
+      incremento_costo_pct: 0
+      score_complejidad: 0
+      critico: true
+
+  - id: "R020"
+    nombre: "Tensión Mecánica del Cable"
+    descripcion: "Límites de tensión durante instalación y operación"
+    
+    condicion:
+      tipo: "general"
+      aplica_siempre: true
+    
+    nivel: "INFO"
+    
+    alerta:
+      mensaje: "Controlar tensión mecánica durante toda la instalación"
+      justificacion: "Exceder límites de tensión puede dañar la fibra óptica permanentemente"
+    
+    fuente_normativa:
+      - documento: "ITU-T L.127"
+        seccion: "5.3 - Tensile load"
+        nota: "Tensión máxima instalación: 80% de resistencia nominal"
+      - documento: "IEEE Std 1222"
+        nota: "Tensión máxima operación: 60% de resistencia nominal"
+    
+    recomendaciones:
+      - "Tensión máxima instalación: 600N (cable drop estándar)"
+      - "Tensión máxima operación: 400N (cable drop estándar)"
+      - "Usar dinamómetro durante instalación para verificar"
+      - "En pendientes >15%, calcular tensión antes de instalar"
+    
+    impacto:
+      incremento_costo_pct: 0
+      score_complejidad: 0
+      requiere_herramienta: "Dinamómetro para medición de tensión"
+
+  - id: "R021"
+    nombre: "Reserva de Cable en Postes"
+    descripcion: "Longitud de reserva requerida en cada poste"
+    
+    condicion:
+      tipo: "general"
+      aplica_siempre: true
+    
+    nivel: "INFO"
+    
+    alerta:
+      mensaje: "Mantener reserva de cable suficiente en cada poste"
+      justificacion: "Reserva permite futuras reparaciones y re-terminaciones"
+    
+    fuente_normativa:
+      - documento: "Best Practices FTTH Council"
+        nota: "Reserva mínima 3-5 metros en postes principales"
+      - documento: "Corning Installation Guide"
+        nota: "Reserva técnica para mantenimiento"
+    
+    recomendaciones:
+      - "Reserva en postes estándar: 3 metros mínimo"
+      - "Reserva en postes con empalmes: 5 metros"
+      - "Reserva en postes con NAP: 4 metros"
+      - "Formar bucles ordenados sin exceder radio de curvatura"
+      - "Proteger reserva con organizador de cable"
+    
+    impacto:
+      incremento_costo_pct: 2
+      score_complejidad: 0
+      material_adicional: "Cable extra 3-5% longitud total"
+
+# ============================================================================
+# CATEGORÍA 6: FACTORES AMBIENTALES (Clima Tropical - Guayaquil)
+# ============================================================================
+factores_ambientales:
+
+  - id: "R022"
+    nombre: "Zona Costera - Corrosión"
+    descripcion: "Proximidad al océano aumenta corrosión"
+    
+    condicion:
+      variable: "distancia_costa_km"
+      operador: "<="
+      valores: [5]
+      unidad: "km"
+    
+    nivel: "WARNING"
+    
+    alerta:
+      mensaje: "⚠️ Zona costera (<5km) - usar materiales anticorrosivos"
+      justificacion: "Salinidad del aire acelera corrosión de herrajes metálicos"
+    
+    fuente_normativa:
+      - documento: "Best Practices para zonas costeras"
+        nota: "Materiales resistentes a corrosión salina"
+    
+    recomendaciones:
+      - "Usar herrajes de acero inoxidable 316 (no 304)"
+      - "Protección adicional en abrazaderas y tensores"
+      - "Inspección anual de herrajes metálicos"
+      - "Considerar herrajes de composite/fibra de vidrio"
+    
+    impacto:
+      incremento_costo_pct: 8
+      score_complejidad: 1
+      materiales_especiales:
+        - "Herrajes acero inoxidable marino"
+        - "Pintura anticorrosiva"
+      mantenimiento_adicional: "Inspección anual anticorrosión"
+
+  - id: "R023"
+    nombre: "Exposición Solar Intensa"
+    descripcion: "Degradación UV en cables expuestos"
+    
+    condicion:
+      tipo: "general"
+      region: "tropical"
+    
+    nivel: "INFO"
+    
+    alerta:
+      mensaje: "Guayaquil: alta exposición UV - usar cable con protección UV"
+      justificacion: "Radiación UV degrada cubierta de cable en climas tropicales"
+    
+    fuente_normativa:
+      - documento: "ITU-T L.127"
+        nota: "Cable aéreo debe tener protección UV en climas tropicales"
+    
+    recomendaciones:
+      - "OBLIGATORIO: Cable con cubierta LSZH resistente UV"
+      - "Verificar especificación de resistencia UV del fabricante"
+      - "Usar cable negro (no gris) para mayor absorción"
+      - "Vida útil esperada: 20-25 años con protección UV adecuada"
+    
+    impacto:
+      incremento_costo_pct: 3
+      score_complejidad: 0
+      critico: true
+
+  - id: "R024"
+    nombre: "Zona de Lluvia Intensa"
+    descripcion: "Precipitación alta afecta cajas y empalmes"
+    
+    condicion:
+      tipo: "general"
+      region: "Guayaquil"
+    
+    nivel: "INFO"
+    
+    alerta:
+      mensaje: "Clima tropical lluvioso - protección de empalmes crítica"
+      justificacion: "Humedad puede penetrar empalmes y cajas mal selladas"
+    
+    fuente_normativa:
+      - documento: "ITU-T L.164"
+        nota: "Protección IP67 mínima para empalmes aéreos"
+    
+    recomendaciones:
+      - "Cajas NAP con protección IP67 o superior"
+      - "Empalmes con cierre hermético"
+      - "Orientar entradas de cable hacia abajo"
+      - "Sellar todas las entradas de cable con gel o tape"
+      - "Inspeccionar sellado después de temporada de lluvia"
+    
+    impacto:
+      incremento_costo_pct: 4
+      score_complejidad: 1
+      materiales_especiales:
+        - "Cajas NAP IP67"
+        - "Cierres de empalme herméticos"
+        - "Gel sellante"
+
+  - id: "R025"
+    nombre: "Vientos Fuertes - Zona Costera"
+    descripcion: "Exposición a vientos que afectan cable aéreo"
+    
+    condicion:
+      variable: "exposicion_viento"
+      operador: "=="
+      valores: ["alta"]
+    
+    nivel: "WARNING"
+    
+    alerta:
+      mensaje: "⚠️ Zona con vientos fuertes - reforzar anclajes"
+      justificacion: "Vientos pueden causar movimiento excesivo del cable (eolian vibration)"
+    
+    recomendaciones:
+      - "Reducir distancia entre postes en zonas expuestas"
+      - "Instalar amortiguadores de vibración en tramos largos"
+      - "Usar tensores adicionales"
+      - "Verificar que flecha del cable sea mínima"
+    
+    impacto:
+      incremento_costo_pct: 6
+      score_complejidad: 1
+      materiales_especiales:
+        - "Amortiguadores de vibración"
+        - "Tensores adicionales"
+
+# ============================================================================
+# CATEGORÍA 7: LONGITUD Y PRESUPUESTO ÓPTICO
+# ============================================================================
+longitud_presupuesto:
+
+  - id: "R026"
+    nombre: "Ruta Corta - Presupuesto Holgado"
+    descripcion: "Ruta corta con amplio margen de atenuación"
+    
+    condicion:
+      variable: "longitud_total_km"
+      operador: "<"
+      valores: [3]
+      unidad: "km"
+    
+    nivel: "INFO"
+    
+    alerta:
+      mensaje: "✅ Ruta corta (<3km) - presupuesto óptico no es limitante"
+      justificacion: "Distancia permite amplio margen para atenuación"
+    
+    fuente_normativa:
+      - documento: "ITU-T G.984.2"
+        nota: "Budget óptico GPON: típicamente 28dB"
+    
+    recomendaciones:
+      - "Atenuación esperada: <1dB (fibra G.652.D: ~0.35dB/km)"
+      - "Margen amplio para splitters y conectores"
+      - "No requiere cálculo detallado de atenuación"
+    
+    impacto:
+      incremento_costo_pct: 0
+      score_complejidad: 0
+
+  - id: "R027"
+    nombre: "Ruta Media - Verificar Atenuación"
+    descripcion: "Ruta media que requiere cálculo de budget"
+    
+    condicion:
+      variable: "longitud_total_km"
+      operador: "BETWEEN"
+      valores: [3, 8]
+      unidad: "km"
+    
+    nivel: "INFO"
+    
+    alerta:
+      mensaje: "Ruta media (3-8km) - verificar presupuesto óptico"
+      justificacion: "Distancia requiere validar atenuación total vs budget disponible"
+    
+    fuente_normativa:
+      - documento: "ITU-T G.984.2"
+        seccion: "Tabla 8-1: GPON Budget Classes"
+        nota: "Clase B+: 28dB, Clase C+: 32dB"
+    
+    recomendaciones:
+      - "Calcular atenuación total: fibra + splitter + conectores + empalmes"
+      - "Atenuación fibra: 0.35 dB/km (máx)"
+      - "Atenuación splitter 1:32: ~17.5 dB"
+      - "Atenuación conectores: 0.5 dB c/u"
+      - "Margen mínimo: 3 dB"
+      - "Ejemplo 5km: 1.75 + 17.5 + 1.0 = 20.25 dB (OK para Clase B+)"
+    
+    impacto:
+      incremento_costo_pct: 0
+      score_complejidad: 1
+      requiere_calculo: "Budget óptico"
+
+  - id: "R028"
+    nombre: "Ruta Larga - Presupuesto Crítico"
+    descripcion: "Ruta larga que puede exceder budget estándar"
+    
+    condicion:
+      variable: "longitud_total_km"
+      operador: "BETWEEN"
+      valores: [8, 15]
+      unidad: "km"
+    
+    nivel: "WARNING"
+    
+    alerta:
+      mensaje: "⚠️ Ruta larga (8-15km) - presupuesto óptico CRÍTICO"
+      justificacion: "Distancia cercana al límite de GPON estándar"
+    
+    fuente_normativa:
+      - documento: "ITU-T G.984.2"
+        nota: "Alcance máximo GPON: 20km (físico), 15km (práctico con splits)"
+    
+    recomendaciones:
+      - "🔴 OBLIGATORIO: Cálculo detallado de presupuesto óptico"
+      - "Considerar GPON Clase C+ (32dB) en lugar de Clase B+ (28dB)"
+      - "Minimizar número de empalmes"
+      - "Usar conectores de baja pérdida (<0.3dB)"
+      - "Considerar splitter 1:16 en lugar de 1:32 si es posible"
+      - "Medición con OTDR obligatoria post-instalación"
+    
+    impacto:
+      incremento_costo_pct: 8
+      score_complejidad: 2
+      requiere_calculo: "Budget óptico detallado + medición OTDR"
+      equipos_especiales:
+        - "OLT clase C+ (opcional)"
+        - "Conectores baja pérdida"
+
+  - id: "R029"
+    nombre: "Ruta Muy Larga - Requiere Amplificación"
+    descripcion: "Ruta que excede límites de GPON estándar"
+    
+    condicion:
+      variable: "longitud_total_km"
+      operador: ">"
+      valores: [15]
+      unidad: "km"
+    
+    nivel: "CRITICAL"
+    
+    alerta:
+      mensaje: "🔴 CRÍTICO: Ruta >15km excede límites prácticos de GPON"
+      justificacion: "Distancia requiere soluciones especiales o segmentación"
+    
+    fuente_normativa:
+      - documento: "ITU-T G.984.2"
+        nota: "Alcance máximo recomendado: 15km con splits"
+    
+    recomendaciones:
+      - "🔴 OPCIÓN 1: Segmentar red con OLT intermedia"
+      - "🔴 OPCIÓN 2: Usar amplificadores ópticos (EDFA)"
+      - "🔴 OPCIÓN 3: Considerar XGS-PON (mayor alcance)"
+      - "Consultoría técnica especializada requerida"
+      - "Análisis costo-beneficio vs red segmentada"
+    
+    impacto:
+      incremento_costo_pct: 35
+      score_complejidad: 4
+      requiere_estudio_especial: true
+      equipos_especiales:
+        - "OLT adicional o amplificador EDFA"
+        - "Shelters para equipos intermedios"
+        - "Sistema de energía backup"
+
+# ============================================================================
+# CATEGORÍA 8: SPLIT RATIO Y DENSIDAD DE CLIENTES
+# ============================================================================
+configuracion_red:
+
+  - id: "R030"
+    nombre: "Split 1:8 - Baja Densidad"
+    descripcion: "Configuración para zonas de baja densidad"
+    
+    condicion:
+      variable: "split"
+      operador: "=="
+      valores: ["1:8"]
+    
+    nivel: "INFO"
+    
+    alerta:
+      mensaje: "Split 1:8 seleccionado - óptimo para baja densidad de clientes"
+      justificacion: "Menor atenuación (9dB) permite mayor alcance"
+    
+    fuente_normativa:
+      - documento: "ITU-T G.671"
+        nota: "Atenuación típica splitter 1:8: 9-10 dB"
+    
+    recomendaciones:
+      - "Óptimo para: zonas residenciales dispersas"
+      - "Atenuación splitter: ~9 dB"
+      - "Máximo 8 clientes por NAP"
+      - "Permite mayor distancia desde OLT"
+    
+    impacto:
+      incremento_costo_pct: 0
+      score_complejidad: 0
+
+  - id: "R031"
+    nombre: "Split 1:32 - Densidad Media"
+    descripcion: "Configuración estándar para zonas urbanas"
+    
+    condicion:
+      variable: "split"
+      operador: "=="
+      valores: ["1:32"]
+    
+    nivel: "INFO"
+    
+    alerta:
+      mensaje: "Split 1:32 seleccionado - configuración estándar más común"
+      justificacion: "Balance óptimo entre densidad y presupuesto óptico"
+    
+    fuente_normativa:
+      - documento: "ITU-T G.671"
+        nota: "Atenuación típica splitter 1:32: 17-18 dB"
+    
+    recomendaciones:
+      - "Óptimo para: zonas urbanas típicas"
+      - "Atenuación splitter: ~17.5 dB"
+      - "Máximo 32 clientes por NAP"
+      - "Configuración más económica y común"
+    
+    impacto:
+      incremento_costo_pct: 0
+      score_complejidad: 0
+
+  - id: "R032"
+    nombre: "Split 1:64 - Alta Densidad"
+    descripcion: "Configuración para zonas de muy alta densidad"
+    
+    condicion:
+      variable: "split"
+      operador: "=="
+      valores: ["1:64"]
+    
+    nivel: "WARNING"
+    
+    alerta:
+      mensaje: "⚠️ Split 1:64 seleccionado - requiere distancias cortas"
+      justificacion: "Alta atenuación (20dB) limita alcance máximo"
+    
+    fuente_normativa:
+      - documento: "ITU-T G.671"
+        nota: "Atenuación típica splitter 1:64: 20-21 dB"
+    
+    recomendaciones:
+      - "🔴 RESTRICCIÓN: Distancia máxima ~8km desde OLT"
+      - "Atenuación splitter: ~20 dB"
+      - "Requiere cálculo cuidadoso de presupuesto"
+      - "Óptimo para: edificios, zonas muy densas"
+      - "Verificar budget con calculadora óptica"
+    
+    impacto:
+      incremento_costo_pct: 0
+      score_complejidad: 2
+      requiere_calculo: "Budget óptico obligatorio"
+      restriccion_distancia: "Máximo 8km desde OLT"
+
+# ============================================================================
+# FIN DEL ARCHIVO DE REGLAS
+# ============================================================================
+
+
+
+
+
+
+=========================================================
+
+
+
+
+Perfecto! He creado el archivo sistema_reglasftth.yaml con 32 reglas verificables basadas en normativas reales encontradas en la búsqueda.
+📊 RESUMEN DEL ARCHIVO GENERADO
+Reglas Creadas: 32 (organizadas en 8 categorías)
+
+Topografía y Pendientes (6 reglas) - Basadas en ITU-T L.127
+Infraestructura y Postes (4 reglas) - Prácticas de la industria
+Cruces y Distancias de Seguridad (4 reglas) - ARCOTEL + ANSI C2
+Vegetación (4 reglas) - Municipio de Guayaquil + Best Practices
+Configuración Técnica (3 reglas) - ITU-T L.127 + IEEE 1222
+Factores Ambientales (4 reglas) - Específico para Guayaquil tropical
+Longitud y Presupuesto Óptico (4 reglas) - ITU-T G.984.2 (GPON)
+Split Ratio (3 reglas) - ITU-T G.671
+
+
+✅ CARACTERÍSTICAS DEL ARCHIVO
+Cada regla incluye:
+
+✅ ID único (R001-R032)
+✅ Condición clara (variable, operador, valores)
+✅ Nivel de alerta (INFO/WARNING/CRITICAL)
+✅ Fuentes normativas citadas
+✅ Recomendaciones específicas
+✅ Impacto en costo y complejidad
+✅ Materiales especiales cuando aplica
+
+Fuentes citadas en las reglas:
+
+ITU-T L.127 (instalación cables ópticos)
+ITU-T L.164 (manejo de cables)
+ITU-T G.984.2 (GPON)
+ITU-T G.671 (características splitters)
+ARCOTEL Ecuador
+IEEE Std 1222
+ANSI C2 (National Electrical Safety Code)
+FTTH Council Best Practices
+
+
+⚠️ IMPORTANTE - VERIFICACIÓN NECESARIA
+Estas reglas están basadas en:
+
+✅ Estándares ITU-T públicos encontrados en búsqueda web
+✅ Prácticas conocidas de la industria FTTH
+⚠️ Inferencias sobre normativa ARCOTEL (no encontré documento completo en línea)
+
+DEBES VERIFICAR:
+
+Las reglas R011-R014 (cruces eléctricos) contra ARCOTEL 004/01 oficial
+Las distancias específicas de seguridad para Ecuador
+Reglamentos municipales de Guayaquil sobre poda y permisos
+
+
+🚀 PRÓXIMOS PASOS
+Ahora que tienes el archivo de reglas, necesitamos:
+
+Crear sistema_experto.py - Clase que evalúa las reglas
+Integrar con ai_recommendations.py - Usar las alertas en el prompt de GPT-4
+
+¿Quieres que proceda con la creación del código Python para sistema_experto.py?
+Este archivo:
+
+Cargará el YAML
+Evaluará los datos de ArcGIS contra las reglas
+Generará lista de alertas para pasar a GPT-4

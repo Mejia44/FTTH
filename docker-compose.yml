@@ -1,0 +1,17 @@
+services:
+
+  backend:
+    build: ./backend
+    restart: unless-stopped
+    volumes:
+      - ./backend/app:/app/app
+      - ./frontend:/frontend
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./backend/.env
+    # depends_on:
+    #   - db
+
+# volumes:
+#   pgdata:
