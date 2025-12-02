@@ -1,0 +1,197 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FTTH IA – Trazado y Recomendaciones</title>
+
+  <!-- CSS propios -->
+  <link rel="stylesheet" href="/frontend/css/styles.css"/>
+
+  <!-- Leaflet CSS -->
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+
+  <!-- Leaflet.draw CSS -->
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css"
+  />
+</head>
+<body>
+  <header class="site-header">
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <a href="/">FTTH Analyzer</a>
+      </div>
+      <ul class="nav-menu">
+        <li><a href="#nosotros">Nosotros</a></li>
+        <li><a href="#productos">Productos</a></li>
+        <li><a href="#soluciones">Soluciones</a></li>
+        <li><a href="/frontend/login.html" class="nav-login">Login</a></li>
+      </ul>
+    </div>
+  </nav>
+  
+  <div class="hero-section">
+    <div class="hero-content">
+      <h1>RECOMENDACIONES BASADAS EN IA PARA DESPLIEGUE DE RED FTTH</h1>
+      <p class="hero-subtitle">Bienvenido a la herramienta de diseño de redes FTTH.</p>
+    </div>
+  </div>
+</header>
+<main>
+  <!-- SECCION DE OPCIONES DESPLEGABLES: ESTUDIOS DE FACTIBILIDAD, ARQUITECTURA DE RED, ETC -->
+<section class="config-section">
+  <!-- Columna izquierda: Estudio de Factibilidad -->
+  <div class="config-left">
+    <h2>Estudio de Factibilidad</h2>
+
+    <!-- Ahora es un input numérico (solo números). -->
+    <label for="input-factibilidad" class="visually-hidden">Cantidad de clientes</label>
+    <input id="input-factibilidad" type="number" min="0" step="1" inputmode="numeric" placeholder="Ingresa un número" aria-label="Estudio de Factibilidad">
+
+    <!-- subtitulo debajo de Estudio que indica "Cantidad de clientes" -->
+    <h3 class="subtitulo">Cantidad de clientes</h3>
+
+    <h3>Relación de Split</h3>
+    <select id="select-split" name="split">
+      <option value="" disabled selected>Selecciona split</option>
+      <option value="1:8">1:8</option>
+      <option value="1:32">1:32</option>
+      <option value="1:64">1:64</option>
+    </select>
+
+    <h3>Enfoque Estratégico</h3>
+    <select id="select-enfoque" name="enfoque">
+      <option value="" disabled selected>Selecciona enfoque</option>
+      <option value="subterranea">Construcción Subterránea</option>
+      <option value="aerea">Construcción Aérea</option>
+    </select>
+  </div>
+
+  <!-- Columna derecha: Arquitectura de Red -->
+  <div class="config-right">
+    <h2>Arquitectura de Red</h2>
+    <select id="select-arquitectura" name="arquitectura">
+      <option value="" disabled selected>Selecciona arquitectura</option>
+      <option value="p2p">P2P</option>
+      <option value="p2mp">P2MP</option>
+    </select>
+
+    <!-- Contenedor dinámico para submenú -->
+    <div id="subconfig"></div>
+  </div>
+
+  <!-- acciones: boton Guardar -->
+  <div class="config-actions" aria-hidden="false">
+    <div id="save-status" aria-live="polite" style="align-self:center; margin-right:auto;"></div>
+    <button id="btn-guardar" type="button" class="btn-primary">Guardar</button>
+  </div>
+</section>
+<!-- FIN DE LA SECCION DE OPCIONES DESPLEGABLES -->
+
+
+    <!-- INICIO DE LA SECCION DE TRAZADO DE RUTA DE DESPLIEGUE EN EL MAPA -->
+<section class="map-section" id="map-section">
+  <div class="map-header">
+    <h2>Traza la ruta en el mapa</h2>
+    <div class="search-container">
+      <input 
+        type="text" 
+        id="location-search" 
+        placeholder="Buscar ciudad o dirección..."
+        autocomplete="off"
+      >
+      <button id="btn-search" type="button" class="btn-search" aria-label="Buscar ubicación">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="m21 21-4.35-4.35"></path>
+        </svg>
+      </button>
+      <div id="search-results" class="search-results hidden"></div>
+    </div>
+  </div>
+  
+  <div id="map"></div>
+  
+  <div class="map-actions">
+    <button id="btn-obtener" class="btn-action">Obtener Datos</button>
+    <button id="btn-analizar" class="btn-action" disabled>Analizar Entorno</button>
+  </div>
+</section> <!-- FIN DE SECCION DE LA SECCION DE TRAZADO DE RUTA DE DESPLIEGUE EN EL MAPA -->
+
+    <section class="otros-contenidos">
+      <h2>Recomendaciones Basadas en el Analisis de Entorno de la Ruta Trazada</h2>
+    </section>
+    
+  </main>
+
+  <!-- ======= SECCION DE LAS RECOMENDACIONES DE LA IA BASADAS EN LOS DATOS DEL ENTORNO ======= -->
+
+  <div class="recommendation-wrapper">
+  <div class="rec-box rec-box-top">
+    <p>Resumen corto: estado general, advertencias breves...</p>
+  </div>
+
+  <div class="rec-box rec-box-bottom">
+    <p>La IA Generara las Recomendaciones en breve...</p>
+  </div>
+</div>
+
+    <!-- SECCION DE PIE DE PAGINA -->
+  <!-- El fondo del footer está en .site-footer (ancho completo).
+       El contenido centrado y limitado está en .footer-inner -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="footer-inner container">
+      <div class="footer-brand">
+        <p class="brand-title">MiSitio</p>
+        <p class="brand-desc">Diseño sencillo, accesible y responsivo. Enlaces útiles y contacto.</p>
+
+        <div class="social" aria-label="Redes sociales">
+          <a href="#" aria-label="Twitter (abre en nueva pestaña)" target="_blank" rel="noopener noreferrer">
+            <!-- SVG -->
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M22 5.8c-.6.3-1.3.5-2 .6.7-.4 1.2-1.1 1.4-1.9-.7.4-1.5.6-2.3.8-.6-.6-1.5-1-2.4-1-1.8 0-3.3 1.5-3.3 3.3 0 .3 0 .6.1.9-2.8-.1-5.3-1.5-7-3.6-.3.5-.4 1-.4 1.6 0 1.2.6 2.2 1.6 2.8-.6 0-1.2-.2-1.7-.5 0 0 0 .1 0 .1 0 1.6 1.2 2.9 2.8 3.2-.3.1-.6.2-.9.2-.2 0-.4 0-.6-.1.4 1.3 1.6 2.2 3 2.2-1.1.9-2.5 1.4-4 1.4H6c1.4.9 3 1.4 4.7 1.4 5.6 0 8.7-4.6 8.7-8.6v-.4c.6-.4 1.2-1 1.6-1.6-.6.3-1.2.5-1.8.6z"/></svg>
+          </a>
+          <a href="#" aria-label="GitHub (abre en nueva pestaña)" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.57.1.78-.25.78-.55v-2c-3.2.7-3.88-1.4-3.88-1.4-.52-1.34-1.28-1.7-1.28-1.7-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.2 1.77 1.2 1.03 1.78 2.7 1.27 3.36.97.1-.76.4-1.27.73-1.56-2.56-.29-5.26-1.28-5.26-5.68 0-1.26.45-2.3 1.2-3.12-.12-.3-.52-1.52.12-3.16 0 0 .98-.31 3.2 1.2a11.1 11.1 0 0 1 5.82 0c2.2-1.5 3.18-1.2 3.18-1.2.64 1.64.24 2.86.12 3.16.76.82 1.2 1.86 1.2 3.12 0 4.4-2.72 5.39-5.3 5.67.42.36.8 1.08.8 2.18v3.24c0 .3.2.66.8.55C20.71 21.4 24 17.08 24 12c0-6.35-5.15-11.5-11.99-11.5z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <nav class="footer-nav" aria-label="Enlaces rápidos">
+        <a href="#">Inicio</a>
+        <a href="#">Servicios</a>
+        <a href="#">Precios</a>
+        <a href="#">Contacto</a>
+      </nav>
+
+      <div class="footer-nav" aria-label="Soporte">
+        <a href="#">Ayuda</a>
+        <a href="#">Preguntas frecuentes</a>
+        <a href="#">Política de privacidad</a>
+        <a href="#">Términos</a>
+      </div>
+    </div>
+
+    <div class="footer-bottom container" role="note">
+      <div>© <time datetime="2025">2025</time> MiSitio - Proyecto de Tesis - Todos los derechos reservados.</div>
+    </div>
+  </footer>
+
+  <!-- JS propios  -->
+  <script src="/frontend/js/main.js"></script>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <!-- Leaflet.draw JS -->
+  <script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
+</body>
+</html>
+
+
+
